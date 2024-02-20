@@ -17,9 +17,9 @@
           "PrimaryKey": "C_ID",
           "TableName": "T_yiche_pic_versionState"
         },{
-          "EntityName": "Model_pic",
+          "EntityName": "Bean_version_pic_detail",
           "PrimaryKey": "C_ID",
-          "TableName": "T_model_pic_20240218"
+          "TableName": "T_yiche_pic_versionTypes"
         },{
           "EntityName": "Version_pic",
           "PrimaryKey": "C_ID",

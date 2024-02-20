@@ -27,5 +27,11 @@ public class Pic_main {
         String second_naem = "_detail.txt";
         NP.Method_3_Down_detail_versionPage(second_path,second_naem);
 
+
+//        4.解析具体的东西
+//        NP.Method_4_Analysis_detail_versionPage(second_path,second_naem);
+
+//        5.下载详情图片页面
+
     }
 }

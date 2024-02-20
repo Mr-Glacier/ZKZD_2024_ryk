@@ -2,6 +2,7 @@ package org.example.Controller;
 
 import org.example.Dao.DaoFather;
 import org.example.Entity.Bean_version_pic;
+import org.example.Entity.Bean_version_pic_detail;
 import org.example.Entity.Bean_version_pic_state;
 import org.example.Until.ReadUntil;
 import org.example.Until.SaveUntil;
@@ -28,20 +29,20 @@ public class New_pic_Controller {
         }
     }
 
-    public void Method_1_DownVersionPicTag(String savePath,String saveName,String main_url){
-        DaoFather dao_version = new DaoFather(0,0);
+    public void Method_1_DownVersionPicTag(String savePath, String saveName, String main_url) {
+        DaoFather dao_version = new DaoFather(0, 0);
         ArrayList<Object> BeanList = dao_version.Method_Find();
-        for (Object bean:BeanList){
-            Bean_version_pic bean_version_pic = (Bean_version_pic)bean;
+        for (Object bean : BeanList) {
+            Bean_version_pic bean_version_pic = (Bean_version_pic) bean;
             int C_ID = bean_version_pic.getC_ID();
             String versionID = bean_version_pic.getC_version_id();
             String DownState = bean_version_pic.getC_DownState();
-            String url = main_url + bean_version_pic.getC_allSpell()+"/m"+versionID+"/";
+            String url = main_url + bean_version_pic.getC_allSpell() + "/m" + versionID + "/";
             System.out.println(url);
-            if (DownState.equals("否")){
-                String content= Method_DownHTML(url);
-                if(!content.equals("Error")){
-                    saveUntil.Method_SaveFile(savePath+versionID+saveName, content);
+            if (DownState.equals("否")) {
+                String content = Method_DownHTML(url);
+                if (!content.equals("Error")) {
+                    saveUntil.Method_SaveFile(savePath + versionID + saveName, content);
                     dao_version.Method_ChangeState(C_ID);
                     System.out.println(C_ID);
                 }
@@ -50,27 +51,27 @@ public class New_pic_Controller {
     }
 
 
-    public void Method_2_Analysis(String savePath,String saveName){
-        DaoFather dao_version = new DaoFather(0,0);
-        DaoFather dao_state = new DaoFather(0,1);
+    public void Method_2_Analysis(String savePath, String saveName) {
+        DaoFather dao_version = new DaoFather(0, 0);
+        DaoFather dao_state = new DaoFather(0, 1);
 
         ArrayList<Object> BeanList = dao_version.Method_Find();
-        for (Object bean:BeanList) {
+        for (Object bean : BeanList) {
             Bean_version_pic bean_version_pic = (Bean_version_pic) bean;
             int C_ID = bean_version_pic.getC_ID();
             String versionID = bean_version_pic.getC_version_id();
 
-            String content  = readUntil.Method_ReadFile(savePath+versionID+saveName);
+            String content = readUntil.Method_ReadFile(savePath + versionID + saveName);
 
             Document document = Jsoup.parse(content);
             Elements Item = document.select(".more");
 
             String tage = Item.select(".text").text().replace(">>", "");
             int pic_count = 0;
-            String url = "-" ;
-            if (!tage.contains("无实拍图")){
-                pic_count  = Integer.parseInt(tage.replace("共", "").replace("张实拍图", ""));
-                url = "https:"+document.select(".big-img").select(".more").attr("href");
+            String url = "-";
+            if (!tage.contains("无实拍图")) {
+                pic_count = Integer.parseInt(tage.replace("共", "").replace("张实拍图", ""));
+                url = "https:" + document.select(".big-img").select(".more").attr("href");
             }
             Bean_version_pic_state bean_version_pic_state = new Bean_version_pic_state();
             bean_version_pic_state.setC_DownState("否");
@@ -82,40 +83,42 @@ public class New_pic_Controller {
             System.out.println(url);
         }
     }
-    public void Method_3_Down_detail_versionPage(String savePath,String saveName){
-        DaoFather dao_state = new DaoFather(0,1);
+
+    public void Method_3_Down_detail_versionPage(String savePath, String saveName) {
+        DaoFather dao_state = new DaoFather(0, 1);
         ArrayList<Object> BeanList = dao_state.Method_Find();
 
-        for (Object bean:BeanList){
+        for (Object bean : BeanList) {
             Bean_version_pic_state bean_version_pic_state = (Bean_version_pic_state) bean;
 
-            int count  = bean_version_pic_state.getC_pic_count();
-            String DownState  = bean_version_pic_state.getC_DownState();
+            int count = bean_version_pic_state.getC_pic_count();
+            String DownState = bean_version_pic_state.getC_DownState();
             String versionID = bean_version_pic_state.getC_version_id();
             String version_url = bean_version_pic_state.getC_pic_url();
             int C_ID = bean_version_pic_state.getC_ID();
-            if (count!=0){
-                if (DownState.equals("否")){
+            if (count != 0) {
+                if (DownState.equals("否")) {
                     System.out.println(C_ID);
-                    String  content  = Method_DownHTML(version_url);
-                    if (!content.equals("Error")){
-                        saveUntil.Method_SaveFile(savePath+versionID+saveName,content);
+                    String content = Method_DownHTML(version_url);
+                    if (!content.equals("Error")) {
+                        saveUntil.Method_SaveFile(savePath + versionID + saveName, content);
                         dao_state.Method_ChangeState(C_ID);
-                        System.out.println("下载完成->"+versionID);
+                        System.out.println("下载完成->" + versionID);
                     }
                 }
             }
         }
     }
 
-    public void Method_4_Analysis_detail_versionPage(String savePath,String saveName){
-        DaoFather daoFather = new DaoFather(0,1);
+    public void Method_4_Analysis_detail_versionPage(String savePath, String saveName) {
+        DaoFather daoFather = new DaoFather(0, 1);
+        DaoFather dao_pic_detail = new DaoFather(0, 2);
         ArrayList<Object> BeanList = daoFather.Method_Find();
-        for (Object bean:BeanList){
+        for (Object bean : BeanList) {
             Bean_version_pic_state bean_version_pic_state = (Bean_version_pic_state) bean;
             String versionId = bean_version_pic_state.getC_version_id();
 
-            String content  = readUntil.Method_ReadFile(savePath+versionId+saveName);
+            String content = readUntil.Method_ReadFile(savePath + versionId + saveName);
             Document document = Jsoup.parse(content);
             Elements Items = document.select(".img-list-main");
 
@@ -123,28 +126,66 @@ public class New_pic_Controller {
 
             for (int i = 0; i < Items.size(); i++) {
 
-                Element Item =  Items.get(i);
+                Element Item = Items.get(i);
 
                 Elements Item2 = Item.select(".tuku-sub-tab-container");
-                String  title = Item2.select(".tuku-sub-tab-title").text();
+                String title = Item2.select(".tuku-sub-tab-title").text();
                 System.out.println(title);
 
-                if(title.equals("实拍图")){
+                if (title.equals("实拍图")) {
                     Elements Items3 = Item.select(".tuku-sub-tab-menu").select("a");
                     System.out.println(Items3.size());
-                    for (Element Item4 :Items3){
-                        String url = "https://photo.yiche.com"+Item4.attr("href");
+                    for (Element Item4 : Items3) {
+                        String url = "https://photo.yiche.com" + Item4.attr("href");
                         String type = Item4.text();
                         System.out.println(url);
                         System.out.println(type);
+                        Bean_version_pic_detail bean_version_pic_detail = new Bean_version_pic_detail();
+                        bean_version_pic_detail.setC_version_id(versionId);
+                        bean_version_pic_detail.setC_pic_type(title);
+                        bean_version_pic_detail.setC_pic_type2(type);
+                        bean_version_pic_detail.setC_pic_url(url);
+                        bean_version_pic_detail.setC_DownState("否");
+                        dao_pic_detail.Method_Insert(bean_version_pic_detail);
                     }
-                }else {
+                } else {
                     Elements Item3 = Item.select(".tuku-sub-tab-dest");
-                    String url= "https://photo.yiche.com"+Item3.select("a").attr("href");
+                    String url = "https://photo.yiche.com" + Item3.select("a").attr("href");
                     System.out.println(url);
+                    Bean_version_pic_detail bean_version_pic_detail = new Bean_version_pic_detail();
+                    bean_version_pic_detail.setC_version_id(versionId);
+                    bean_version_pic_detail.setC_pic_type(title);
+                    bean_version_pic_detail.setC_pic_type2("-");
+                    bean_version_pic_detail.setC_pic_url(url);
+                    bean_version_pic_detail.setC_DownState("否");
+                    dao_pic_detail.Method_Insert(bean_version_pic_detail);
                 }
+            }
+        }
+    }
 
+    public void Method_5_Down_type_version(String savePath, String saveName) {
+        DaoFather dao_pic_detail = new DaoFather(0, 2);
+        ArrayList<Object> BeanList = dao_pic_detail.Method_Find();
 
+        for (Object bean : BeanList) {
+            Bean_version_pic_detail bean_version_pic_detail = (Bean_version_pic_detail) bean;
+            String versionID = bean_version_pic_detail.getC_version_id();
+
+            String DownState = bean_version_pic_detail.getC_DownState();
+            int C_ID = bean_version_pic_detail.getC_ID();
+
+            String type = bean_version_pic_detail.getC_pic_type();
+            if (DownState.equals("否")) {
+                if (type.equals("实拍图")) {
+                    String type2 = bean_version_pic_detail.getC_pic_type2();
+                    String content = Method_DownHTML(bean_version_pic_detail.getC_pic_url());
+                    if (content.equals("Error")) {
+                        saveUntil.Method_SaveFile(savePath + versionID + "_" + type2 + saveName, content);
+                        dao_pic_detail.Method_ChangeState(C_ID);
+                        System.out.println("下载完成:->" + C_ID);
+                    }
+                }
             }
         }
     }
