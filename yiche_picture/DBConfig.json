@@ -21,17 +21,21 @@
           "PrimaryKey": "C_ID",
           "TableName": "T_yiche_pic_versionTypes"
         },{
-          "EntityName": "Version_pic",
+          "EntityName": "Bean_version_pic_pages",
           "PrimaryKey": "C_ID",
-          "TableName": "T_version_pic_20240218"
+          "TableName": "T_yiche_pic_versionPages"
         },{
-          "EntityName": "Bean_version_config",
+          "EntityName": "Bean_version_pic_requestapi",
           "PrimaryKey": "C_ID",
-          "TableName": "T_yiche_Config_20240218"
+          "TableName": "t_yiche_pic_versionrequestapi"
         },{
-          "EntityName": "Bean_config_chose",
+          "EntityName": "Bean_version_pic_downpic",
           "PrimaryKey": "C_ID",
-          "TableName": "T_yiche_Config_chose_20240218"
+          "TableName": "t_yiche_pic_versionpicdown"
+        },{
+          "EntityName": "Bean_version_pic_downpic2",
+          "PrimaryKey": "C_ID",
+          "TableName": "t_yiche_pic_versionpicdown2"
         }
       ]
     }

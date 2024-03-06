@@ -7,14 +7,17 @@ import org.example.Entity.Model_pic;
 import org.example.Entity.Version_pic;
 import org.example.Entity.brand_pic;
 import org.example.Entity.model_pic_mid;
+import org.example.Until.MD5Until;
 import org.example.Until.ReadUntil;
 import org.example.Until.SaveUntil;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class pic_Controller {
@@ -331,4 +334,6 @@ public class pic_Controller {
             }
         }
     }
+
+
 }
